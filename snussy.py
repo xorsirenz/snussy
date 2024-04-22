@@ -58,10 +58,11 @@ def run():
         ):
         search_type = lookup
         user_argument = data 
-        search_response = send_request('data/search',{
-            'terms': [user_argument],
-            'types': [search_type],
-            'wildcard': False,})
+        search_response = send_request(
+                'data/search',{
+                    'terms': [user_argument],
+                    'types': [search_type],
+                    'wildcard': False,})
         response_data = search_response
 
         if 'results' in response_data:
