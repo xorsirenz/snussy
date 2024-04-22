@@ -40,7 +40,7 @@ def run():
 
     @bot.tree.command(
             name="snussybot",
-            description="search snusbase",
+            description="search snusbase API",
             nsfw=True)
     @app_commands.checks.cooldown(1, 5.0)
     @app_commands.choices(lookup=[
@@ -57,15 +57,11 @@ def run():
         lookup: str, data: app_commands.Range[str, 1, 40]
         ):
         search_type = lookup
-        user_argument = data
-        
-        #async def get_res(search_type: str, user_argument: str):
-        search_response = send_request('data/search', {
+        user_argument = data 
+        search_response = send_request('data/search',{
             'terms': [user_argument],
             'types': [search_type],
-            'wildcard': False,
-            })
-
+            'wildcard': False,})
         response_data = search_response
 
         if 'results' in response_data:
