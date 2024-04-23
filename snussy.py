@@ -65,21 +65,22 @@ def run():
                     'wildcard': False,})
         response_data = search_response
 
-        if 'results' in response_data:
-            await interaction.response.send_message(f"SEARCHED FOR: {user_argument}\n")
-            for key, value_list in response_data['results'].items():
-                output = ""
-                output += f"│  Item: {key}\n"
-                for item in value_list:
-                    for attribute, value in item.items():
-                        output += f"│  {attribute}: {value}\n"
-                    output += "│──\n"
-                    output2 = output.replace("http", "hxxp")
-                await interaction.followup.send(output2)
-            await interaction.followup.send("**SEARCH RESULTS FINISHED**")
-            #return output
-        else:
-            await interaction.response.send_message(f"SEARCHED FOR: {user_argument}\nNo results found")
+        if not 'results' in response_data:
+            await interaction.response.send_message(f"SEARCHED FOR: {user_argument}\n**NO DATA FOUND**\n")
+            return
+
+        await interaction.response.send_message(f"SEARCHED FOR: {user_argument}\n")
+            
+        for key, value_list in response_data['results'].items():
+            output = ""
+            output += f"│  Item: {key}\n"
+            for item in value_list:
+                for attribute, value in item.items():
+                    output += f"│  {attribute}: {value}\n"
+                output += "│──\n"
+                output2 = output.replace("http", "hxxp")
+            await interaction.followup.send(output2)
+        await interaction.followup.send("**SEARCH RESULTS FINISHED**")
 
     bot.run(settings.DISCORD_API_SECRET, root_logger=True)
 
